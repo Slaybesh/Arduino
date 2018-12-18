@@ -1,5 +1,5 @@
 {
-    "sketch": "potentiometer_delay\\potentiometer_delay.ino",
+    "sketch": "src\\potentiometer_delay.ino",
     "board": "arduino:avr:uno",
     "output": "build",
     "port": "COM3"

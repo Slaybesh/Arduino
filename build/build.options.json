@@ -6,6 +6,6 @@
   "hardwareFolders": "C:\\Program Files (x86)\\Arduino\\hardware",
   "otherLibrariesFolders": "C:\\Users\\Huy\\Documents\\Arduino\\libraries",
   "runtime.ide.version": "10808",
-  "sketchLocation": "c:\\Users\\Huy\\Documents\\GitHub\\Arduino\\potentiometer_delay\\potentiometer_delay.ino",
+  "sketchLocation": "c:\\Users\\Huy\\Documents\\GitHub\\Arduino\\src\\potentiometer_delay.ino",
   "toolsFolders": "C:\\Program Files (x86)\\Arduino\\tools-builder,C:\\Program Files (x86)\\Arduino\\hardware\\tools\\avr"
 }
