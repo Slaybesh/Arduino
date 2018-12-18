@@ -26,7 +26,7 @@ void loop() {
   
   if (brightness <= 0) {
     step_size = -step_size;
-  } else if(brightness >= 255) {
+  } else if (brightness >= 255) {
     step_size = -step_size;
     delay(1000);
   }
