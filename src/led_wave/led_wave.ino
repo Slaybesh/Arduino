@@ -1,3 +1,4 @@
+#include <math.h>
 
 int leds[6] = {11,10,9,6,5,3};
 int led_len = sizeof(leds) / sizeof(leds[0]);
@@ -16,41 +17,48 @@ void setup() {
 
 void loop() {
     // exit(0);
-    fade_led();
+    wave();
 }
 
-void fade_led() {
-    double steps = 100;
+void wave() {
+    float steps = 1000;
+    float length = 30;
     int delay_time = 10;
 
-    for(double i=0; i<=1; i+=(1/steps)) {
-        int val = log_converter(i);
-        set_leds(val);
-        delay(delay_time);
-    }
-    delay(delay_time);
-    Serial.println();
-    for(double i=1; i>=0; i-=(1/steps)) {
-        int val = log_converter(i);
-        set_leds(val);
-        delay(delay_time);
-    }
-    Serial.println();
-}
+    float wave_pos = 0;
+    for(float rad=0; rad<=2*PI; rad+=(2*PI/steps)) {
 
+        for(int i_led=0; i_led<led_len; i_led++) {
+
+            float sin_val = sin(rad + (2*PI/steps) * i_led * (steps / length));
+            float shifted = (sin_val + 1) / 2;
+            int pwm_val = log_converter(shifted);
+            set_led(leds[i_led], pwm_val);
+
+        // #region
+            // Serial.print(sin_val);
+            // Serial.print(", ");
+            // Serial.print(shifted);
+            // Serial.print(", ");
+            // Serial.print(pwm_val);
+            // Serial.println("");
+        //#pragma endregion
+        }
+        // Serial.println("");
+        // delay(delay_time);
+    }
+
+}
 
 int log_converter(double linear) {
     double a = 0.33;
-    int pwm_val = pow(MAX_BRIGHTNESS, linear);
+    int pwm_val = pow(MAX_BRIGHTNESS, linear) - 1;
     // int pwm_val = round(pow( (pow(MAX_BRIGHTNESS, a) * linear), 1/a));
-    Serial.print(linear);
-    Serial.print(" ");
-    Serial.println(pwm_val);
     return pwm_val;
 }
 
 void set_led(int i_led, int val) {
-    analogWrite(i_led, 255 - val);
+    analogWrite(i_led, MAX_BRIGHTNESS - val);
 }
 
 void set_leds(int val) {
@@ -58,37 +66,3 @@ void set_leds(int val) {
         set_led(leds[i], val);
     }
 }
-
-void v1() {
-    for(int i=0; i < led_len; i++) {
-        int i_clean = i - 2;
-        int i_prev = i - 1;
-        int i_next = i + 1;
-        if(i_clean == -1) {
-            i_clean = led_len - 1;
-        }
-        if(i_clean == -2) {
-            i_clean = led_len - 2;
-        }
-        if(i_prev < 0) {
-            i_prev = led_len - 1;
-        }
-        if(i_next >= led_len) {
-            i_next = 0;
-        }
-
-        // Serial.println(leds[i]);
-        // set_led(leds[i_clean], 0);
-        // set_led(leds[i_prev], 1);
-        // set_led(leds[i_next], 1);
-        // set_led(leds[i], led_step(i));
-        delay(80);
-    }
-}
-
-// void apply_function_to_array(int arr, function) {
-//         for(int i=0; i < sizeof(arr) / sizeof(arr[0]); i++) {
-//         Serial.println(arr[i]);
-//         function(arr[i], OUTPUT);
-//     }
-// }
